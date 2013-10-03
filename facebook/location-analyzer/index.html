@@ -80,9 +80,9 @@
   	console.log('Start to query location');
   	FB.api({
   	  method: 'fql.query',
-  	  query:'SELECT author_uid, checkin_id, coords, timestamp FROM checkin WHERE author_uid=me();'}), function(response) {
+  	  query: 'SELECT author_uid, checkin_id, coords, timestamp FROM checkin WHERE author_uid=me();'}), function(response) {
   		console.log(response);
-  	}
+  	};
   }
 </script>
 
