@@ -49,7 +49,7 @@
 	    // The same caveats as above apply to the FB.login() call here.
 	    FB.login();
 	  }
-	});
+	}, {scope: 'user_status, friends_status'});
   };
 
   // Load the SDK asynchronously
