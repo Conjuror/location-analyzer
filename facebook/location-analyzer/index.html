@@ -21,7 +21,7 @@
 	    var uid = response.authResponse.userID;
 	    var accessToken=response.authResponse.accessToken;
 	    console.log("accessToken:"+accessToken);
-      	friendList[friendList.length] = uid;
+      	// friendList[friendList.length] = uid;
 
 	    // locationGetter();
 
@@ -97,20 +97,12 @@
   	console.log('Start to query friends');
   	FB.api({
   	    method: 'fql.query',
-  	    query: 'SELECT uid1 FROM friend WHERE uid2=me();'
+  	    query: 'SELECT uid FROM user WHERE uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me());'
   	  }, function(response) {
   	  	for (var i in response) {
-  	  		friendList[friendList.length] = response[i].uid1;
+  	  		friendList[friendList.length] = response[i].uid;
   	  	}
-  	  }
-  	);
-  	FB.api({
-  	    method: 'fql.query',
-  	    query: 'SELECT uid2 FROM friend WHERE uid1=me();'
-  	  }, function(response) {
-  	  	for (var i in response) {
-  	  		friendList[friendList.length] = response[i].uid2;
-  	  	}
+  	  	console.log(friendList.length);
   	  }
   	);
   }
