@@ -28,3 +28,4 @@ document.getElementById("demo").innerHTML="Hello World";
 // console.log(data);
 
 
+// SELECT author_uid, checkin_id, coords, timestamp FROM checkin WHERE author_uid=me();
