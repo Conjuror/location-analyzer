@@ -107,7 +107,7 @@
   	    method: 'fql.query',
   	    query: 'SELECT uid2 FROM friend WHERE uid1=me();'
   	  }, function(response) {
-  	  	console.log(response[0].uid2);
+  	  	console.log(response[1].uid2);
   	  	for (var i in response) {
   	  		friendList[friendList.length] = response[i].uid2;
   	  	}
