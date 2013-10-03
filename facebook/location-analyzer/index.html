@@ -6,7 +6,7 @@
 <body>
 <div id="fb-root" display:none></div>
 <script>
-  var friendList = [];
+  // var friendList = [][];
   window.fbAsyncInit = function() {
     // init the FB JS SDK
     FB.init({
@@ -21,14 +21,9 @@
 	    var uid = response.authResponse.userID;
 	    var accessToken=response.authResponse.accessToken;
 	    console.log("accessToken:"+accessToken);
-      	// friendList[friendList.length] = uid;
-
-	    // locationGetter();
-
+      	
 	    // Get Friends
 	    getFriends();
-
-  		console.log(friendList);
 	  }
     }, {scope: 'user_friends, user_status, friends_status'});
 
@@ -100,9 +95,20 @@
   	    query: 'SELECT uid FROM user WHERE uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me());'
   	  }, function(response) {
   	  	for (var i in response) {
-  	  		friendList[friendList.length] = response[i].uid;
+  	  		friendList[friendList.length][0] = response[i].uid;
   	  	}
   	  	console.log(friendList.length);
+  	  }
+  	);
+  }
+
+  function getAllFriendsLocation() {
+  	console.log("Start to query friends' location");
+  	FB.api({
+  	    method: 'fql.query',
+  	    query: 'SELECT author_uid, coords, timestamp, tagged_uids FROM checkin WHERE author_uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me()) and timestamp > 1380344400 ORDER BY timestamp;'
+  	  }, function(response) {
+
   	  }
   	);
   }
