@@ -6,6 +6,7 @@
 <body>
 <div id="fb-root" display:none></div>
 <script>
+  var friendList = [];
   window.fbAsyncInit = function() {
     // init the FB JS SDK
     FB.init({
@@ -21,7 +22,11 @@
 	    var accessToken=response.authResponse.accessToken;
 	    console.log("accessToken:"+accessToken);
 
-	    locationGetter();
+	    // locationGetter();
+
+	    // Get Friends
+	    getFriends();
+
 	  }
     }, {scope: 'user_status, friends_status'});
 
@@ -73,17 +78,43 @@
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Good to see you, ' + response.name + '.');
+      friendList[friendList.length] = response.id;
     });
   }
 
   function locationGetter() {
   	console.log('Start to query location');
   	FB.api({
-  	  method: 'fql.query',
-  	  query: 'SELECT author_uid, checkin_id, coords, timestamp FROM checkin WHERE author_uid=me();'}, function(response) {
+  	    method: 'fql.query',
+  	    query: 'SELECT author_uid, checkin_id, coords, timestamp FROM checkin WHERE author_uid=me();'
+  	  }, function(response) {
   		console.log(response);
   	});
   }
+
+  function getFriends() {
+  	console.log('Start to query friends');
+  	FB.api({
+  	    method: 'fql.query',
+  	    query: 'SELECT uid1 FROM friend WHERE uid2=me();'
+  	  }, function(response) {
+  	  	for (var i in response[0]) {
+  	  		friendList[friendList.length] = response[0][i];
+  	  	}
+  	  }
+  	);
+  	FB.api({
+  	    method: 'fql.query',
+  	    query: 'SELECT uid2 FROM friend WHERE uid1=me();'
+  	  }, function(response) {
+  	  	for (var i in response[0]) {
+  	  		friendList[friendList.length] = response[0][i];
+  	  	}
+  	  }
+  	);
+  	console.log(friendList);
+  }
+
 </script>
 
 <!--
