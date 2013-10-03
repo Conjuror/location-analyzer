@@ -99,6 +99,7 @@
   	    query: 'SELECT uid1 FROM friend WHERE uid2=me();'
   	  }, function(response) {
   	  	for (var i in response[0]) {
+  	  		console.log(response[0]);
   	  		friendList[friendList.length] = response[0][i];
   	  	}
   	  }
@@ -107,6 +108,7 @@
   	    method: 'fql.query',
   	    query: 'SELECT uid2 FROM friend WHERE uid1=me();'
   	  }, function(response) {
+  	  	console.log(response);
   	  	for (var i in response[0]) {
   	  		friendList[friendList.length] = response[0][i];
   	  	}
