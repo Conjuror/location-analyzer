@@ -17,8 +17,8 @@ my_url = '//rawgithub.com/Conjuror/location-analyzer/patch-001/facebook/location
 //auth user
 token_url = 'https://graph.facebook.com/oauth/access_token?client_id=' + app_id
             + '&redirect_url=' + encodeURI(my_url)
-            + '&client_secret=' + app_secret
-            + '&code=["code"]';
+            + '&client_secret=' + app_secret;
+            // + '&code=["code"]';
 
 data  = httpGet(token_url);
 
