@@ -64,6 +64,10 @@
     FB.api('/me', function(response) {
       console.log('Good to see you, ' + response.name + '.');
     });
+
+    var uid = response.authResponse.userID;
+    var accessToken=response.authResponse.accessToken;
+    console.log("accessToken:"+accessToken);
   }
 </script>
 
