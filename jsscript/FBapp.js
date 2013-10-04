@@ -183,7 +183,7 @@ function getAllFriendsLocation() {
 }
 
 var timeBlock;
-var playTime = 360000 // one minute
+var playTime = 120000 // one minute
 var fps = 20;
 
 function startAnimation() {
@@ -196,6 +196,7 @@ function startAnimation() {
   for (var uid in markersArray) {
     marker = markersArray[uid];
     tick = (marker.laPositionArray[0].timestamp - timeThreshold) / timeBlock;
+    console.log("UID: " + uid + " idles for " + tick + " ticks");
     setTimeout(function(){getNextPoint(uid);}, Math.floor(1000/fps*tick));
     // for (var j = 0 ; j < playTime*fps ; j++) {
     //   countTime = timeThreshold + timeBlock * j;
