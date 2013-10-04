@@ -242,6 +242,7 @@ function startAnimation() {
           }
           for (var k = 0 ; k < slot ; k++, j++) {
             latlng = new google.maps.LatLng(curLatLng.lat+lat*k, curLatLng.lng+lng*k);
+            console.log("push " + latlng);
             marker.animation.push(latlng);
           }
           countPos += 1;
