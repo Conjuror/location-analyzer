@@ -192,14 +192,14 @@ function startAnimation() {
   console.log("Start calculation...");
   var now = new Date().getTime();
 
-  timeBlock = (now - timeThreshold) / (playTime * fps);
+  timeBlock = (now - timeThreshold) / (playTime / fps);
 
   // setup time interval
   for (var i in markersArray) {
     marker = markersArray[i];
     marker.animation = [];
     countPos = 0;
-    for (var j = 0 ; j < playTime*fps ; j++) {
+    for (var j = 0 ; j < playTime*fps/1000 ; j++) {
       countTime = timeThreshold + timeBlock * j;
       if (marker.laPositionArray[countPos].timestamp < countTime) {
         // not start to move
@@ -253,7 +253,7 @@ function startAnimation() {
     intervalStoper[i] = setInterval(function(){PexeAnimation(i);}, time);
   }
 
-  // setTimeout(cleanInterval, playTime);
+  setTimeout(cleanInterval, playTime*2);
 }
 
 function exeAnimation(uid) {
