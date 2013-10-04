@@ -286,10 +286,10 @@ function getNextPoint(uid) {
       counter++;
       if (counter >= tick) {
         window.clearInterval(interval);
+        marker.laPositionArray.shift();
         setTimeout(getNextPoint(uid), 1000);
       }
     }, 1000/fps);
-    marker.laPositionArray.shift();
   }
 
 }
