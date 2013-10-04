@@ -131,8 +131,8 @@ function setCurrentLocation(uid, latlng, timestamp) {
     getIconFromFacebook(uid);
   }
   else {
-    ttt = markersArray[uid].laPositionArray.push({'latlng': latlng, 'timestamp': timestamp});
-    console.log(ttt+"UID: " + uid + " len:" + markersArray[uid].laPositionArray.length);
+    markersArray[uid].laPositionArray.push({'latlng': latlng, 'timestamp': timestamp});
+    console.log(ttt+"UID: " + uid + " len:" + markersArray[uid].laPositionArray.length + " " + latlng + " " + timestamp);
   }
 }
 
@@ -228,7 +228,7 @@ function getNextPoint(uid) {
       counter++;
       if (counter >= tick) {
         window.clearInterval(interval);
-        setTimeout(getNextPoint(uid), 1000);
+        setTimeout(function(){getNextPoint(uid);}, 1000);
         markersArray[uid].curPos+1;
       }
     }, 1000/fps);
