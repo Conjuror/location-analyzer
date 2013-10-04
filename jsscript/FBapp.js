@@ -132,7 +132,6 @@ function setCurrentLocation(uid, latlng, timestamp) {
   }
   else {
     markersArray[uid].laPositionArray.push({'latlng': latlng, 'timestamp': timestamp});
-    console.log(markersArray[uid]);
   }
 }
 
@@ -185,6 +184,10 @@ function startAnimation() {
   timeBlock = (now-timeThreshold) / (playTime*fps);
   console.log("Start calculation... TimeBlock: " + timeBlock);
 
+  for (var uid in markersArray) {
+    console.log("->" + markersArray[uid].laPositionArray.length);
+  }
+
   // setup time interval
   for (var uid in markersArray) {
     markersArray[uid].curPos = 0;
@@ -196,7 +199,6 @@ function startAnimation() {
 }
 
 function getNextPoint(uid) {
-  console.log(markersArray[uid]);
   if (markersArray[uid].laPositionArray.length > 1) {
     // moving to next position
     curLatLng = markersArray[uid].laPositionArray[markersArray[uid].curPos].latlng;
