@@ -220,7 +220,9 @@ function startAnimation() {
         curTimestamp = marker.laPositionArray[countPos].timestamp;
         nxtTimestamp = marker.laPositionArray[countPos+1].timestamp;
 
-        console.log("Move from " + curLatLng + " to " + nxtLatLng " in " + (nxtTimestamp - curTimestamp));
+        ttt = (nxtTimestamp - curTimestamp);
+
+        console.log("Move from " + curLatLng + " to " + nxtLatLng " in " + ttt);
 
         if ((nxtTimestamp - curTimestamp) <= timeBlock) {
           marker.animation.push(curLatLng);
