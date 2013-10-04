@@ -132,7 +132,7 @@ function setCurrentLocation(uid, latlng, timestamp) {
   }
   else {
     markersArray[uid].laPositionArray.push({'latlng': latlng, 'timestamp': timestamp});
-    console.log("UID: " + uid + " len:" + markersArray[uid].laPositionArray.length + " " + latlng + " " + timestamp);
+    console.log(markersArray[uid]);
   }
 }
 
@@ -187,7 +187,6 @@ function startAnimation() {
 
   // setup time interval
   for (var uid in markersArray) {
-    markersArray[uid];
     markersArray[uid].curPos = 0;
     tick = Math.ceil((markersArray[uid].laPositionArray[0].timestamp - timeThreshold) / timeBlock);
     // console.log("UID: " + uid + " idles for " + tick + " ticks");
