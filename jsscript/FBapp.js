@@ -133,6 +133,7 @@ function setCurrentLocation(uid, latlng, timestamp) {
       marker.laPositionArray[0] = [];
       marker.laPositionArray[0]['latlng'] = latlng;
       marker.laPositionArray[0]['timestamp'] = timestamp;
+      markersArray[uid] = marker;
     });
   }
   else {
@@ -186,5 +187,5 @@ function getAllFriendsLocation() {
 }
 
 function startAnimation() {
-  var now = new Data().getTime();
+  var now = new Date().getTime();
 }
