@@ -1,9 +1,5 @@
-// var friendList = [][];
-
 var myPic;
-var current_location = [];
 var markersArray = [];
-var meUid;
 
 var timeThreshold = 1380603600; // Oct 1st
 
@@ -139,6 +135,7 @@ function getCurrentLocationFromFacebook(uid, callback) {
     method: 'fql.query',
     query: 'SELECT current_location FROM user WHERE uid=me();'
   }, function (response) {
+    current_location = [];
     current_location["latitude"] = response[0]["current_location"].latitude;
     current_location["longitude"] = response[0]["current_location"].longitude;
     latlng = new google.maps.LatLng(current_location["latitude"], current_location["longitude"]);
