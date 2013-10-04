@@ -3,6 +3,7 @@
 var myPic;
 var current_location = [];
 var markersArray = [];
+var meUid;
 
 var timeThreshold = 1380603600; // Oct 1st
 
@@ -15,16 +16,13 @@ window.fbAsyncInit = function() {
     xfbml: true // Look for social plugins on the page
   });
 
+  $(window).triggerHandler('fbAsyncInit');
+
   FB.login(function (response) {
     if (response.authResponse) {
-      var meUid = response.authResponse.userID;
+      meUid = response.authResponse.userID;
       var accessToken = response.authResponse.accessToken;
       // console.log("accessToken:" + accessToken);
-
-      setDefaultLocation(meUid);
-
-      // Get Friends
-      getAllFriendsLocation();
     }
   }, {
     scope: 'user_location, user_friends, user_status, friends_status'
@@ -62,6 +60,11 @@ window.fbAsyncInit = function() {
     }
   });
 };
+
+$(window).bind('fbAsyncInit', function() {
+  setDefaultLocation(meUid);
+  getAllFriendsLocation();
+});
 
 // Load the SDK asynchronously
 (function(d) {
