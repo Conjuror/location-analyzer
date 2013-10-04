@@ -196,7 +196,7 @@ function startAnimation() {
 }
 
 function getNextPoint(uid) {
-  console.log("hi");
+  console.log("UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
   if (markersArray[uid].laPositionArray.length > 1) {
     console.log("hio");
     // moving to next position
