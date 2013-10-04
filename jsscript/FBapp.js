@@ -115,7 +115,7 @@ function getIconFromFacebook(uid, callback) {
     method: 'fql.query',
     query: 'SELECT pic_square FROM user WHERE uid=' + uid
   }, function (response) {
-    callback(response[0].pic_square);
+    callback(response.pic_square);
   });
 }
 
@@ -173,7 +173,7 @@ function getAllFriendsLocation() {
       setCurrentLocation(uid, latlng, timestamp);
 
       for (var j in response[i]['tagged_uids']) {
-        setCurrentLocation(j, latlng, timestamp);
+        setCurrentLocation(responpse[i]['tagged_uids'][j], latlng, timestamp);
       }
     }
 
