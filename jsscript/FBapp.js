@@ -1,8 +1,7 @@
 // var friendList = [][];
 
 var myPic;
-var current_location.latitude;
-var current_location.longitude;
+var current_location;
 
 window.fbAsyncInit = function() {
   // init the FB JS SDK
