@@ -195,9 +195,9 @@ function startAnimation() {
   // setup time interval
   for (var uid in markersArray) {
     marker = markersArray[uid];
-    tick = (marker.laPositionArray[0].timestamp - timeThreshold) / timeBlock;
+    tick = Math.ceil((marker.laPositionArray[0].timestamp - timeThreshold) / timeBlock);
     console.log("UID: " + uid + " idles for " + tick + " ticks");
-    setTimeout(function(){getNextPoint(uid);}, Math.ceil(1000/fps*tick));
+    setTimeout(function(){getNextPoint(uid);}, (tick*1000/fps));
     // for (var j = 0 ; j < playTime*fps ; j++) {
     //   countTime = timeThreshold + timeBlock * j;
     //   if (countPos == 0 && marker.laPositionArray[0].timestamp < countTime) {
