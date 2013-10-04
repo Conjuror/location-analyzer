@@ -258,8 +258,10 @@ function startAnimation() {
 
 function exeAnimation(uid) {
   marker = markersArray[uid];
+  if (marker.animation[0] != marker.animation[1]) {
+    console.log("UID: " + uid + " moves from " + marker.animation[0] + " to " + marker.animation[1]);
+  }
   latlng = marker.animation.shift();
-  // console.log("UID: " + uid + " AT: " + latlng);
   marker.setPosition(latlng);
 }
 
