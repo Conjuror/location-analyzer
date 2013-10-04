@@ -129,12 +129,12 @@ function setCurrentLocation(uid, latlng, timestamp) {
     });
     markersArray[uid] = marker;
     marker.laPositionArray = [];
-    marker.laPositionArray.unshift(['latlng': latlng, 'timestamp': timestamp]);
+    marker.laPositionArray.unshift({'latlng': latlng, 'timestamp': timestamp});
     getIconFromFacebook(uid);
   }
   else {
     marker = markersArray[uid];
-    marker.laPositionArray.unshift(['latlng': latlng, 'timestamp': timestamp]);
+    marker.laPositionArray.unshift({'latlng': latlng, 'timestamp': timestamp});
   }
 }
 
