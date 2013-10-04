@@ -189,6 +189,7 @@ var fps = 20;
 var intervalStoper = [];
 
 function startAnimation() {
+  console.log("Start calculation...");
   var now = new Date().getTime();
 
   timeBlock = (now - timeThreshold) / (playTime * fps);
@@ -255,7 +256,9 @@ function startAnimation() {
 
 function exeAnimation(i) {
   marker = markersArray[i];
-  marker.setPosition(marker.animation.shift());
+  latlng = marker.animation.shift();
+  console.log("UID: " + i + " AT: " + latlng);
+  marker.setPosition(latlng);
 }
 
 function cleanInterval() {
