@@ -176,5 +176,11 @@ function getAllFriendsLocation() {
         setCurrentLocation(j, latlng, timestamp);
       }
     }
+
+    startAnimation();
   });
+}
+
+function startAnimation() {
+  
 }
