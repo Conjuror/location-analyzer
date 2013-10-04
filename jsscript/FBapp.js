@@ -168,7 +168,7 @@ function getAllFriendsLocation() {
     console.log(response);
     for (var i in response[0]) {
       uid = response[0][i].author_uid;
-      latlng = new google.maps.LatLng(response[0][i]['coords'].latitude, response[0][i]['coords'].longitude]);
+      latlng = new google.maps.LatLng(response[0][i]['coords'].latitude, response[0][i]['coords'].longitude);
       timestamp = response[0][i].timestamp;
       setCurrentLocation(uid, latlng, timestamp);
 
