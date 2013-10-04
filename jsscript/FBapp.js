@@ -108,25 +108,32 @@ function getFriends() {
 }
 
 function setCurrentLocation() {
+  getCurrentLocationFromFacebook(function() {
+    FB.api({
+      method: 'fql.query',
+      query: 'SELECT pic_square FROM user WHERE uid=me();'
+    }, function(response) {
+      myPic = response[0].pic_square;
+      console.log("Pic: " + myPic);
+      var me = new google.maps.Marker({
+        position: new google.maps.LatLng(current_location["latitude"], current_location["longitude"]),
+        icon: myPic
+      });
+      me.setMap(map);
+    });
+  });
+}
+
+function getCurrentLocationFromFacebook(callback) {
   FB.api({
     method: 'fql.query',
     query: 'SELECT current_location FROM user WHERE uid=me();'
   }, function(response) {
+    console.log("response");
     current_location["latitude"] = response[0].latitude;
     current_location["longitude"] = response[0].longitude;
-  });
-  console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
-  FB.api({
-    method: 'fql.query',
-    query: 'SELECT pic_square FROM user WHERE uid=me();'
-  }, function(response) {
-    myPic = response[0].pic_square;
-    console.log("Pic: " + myPic);
-    var me = new google.maps.Marker({
-      position: new google.maps.LatLng(current_location["latitude"], current_location["longitude"]),
-      icon: myPic
-    });
-    me.setMap(map);
+    console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
+    callback();
   });
 }
 
