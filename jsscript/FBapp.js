@@ -192,7 +192,7 @@ function startAnimation() {
   console.log("Start calculation...");
   var now = new Date().getTime();
 
-  timeBlock = (now - timeThreshold) / (playTime / fps);
+  timeBlock = (now - timeThreshold) / (playTime / fps / 1000);
 
   // setup time interval
   for (var i in markersArray) {
@@ -247,7 +247,7 @@ function startAnimation() {
   }
 
 
-  time = Math.floor(playTime/fps)
+  time = Math.floor(playTime/fps/1000)
   console.log("Start Animation. Interval Time: " + time);
   for (var i in markersArray) {
     intervalStoper[i] = setInterval(function(){exeAnimation(i);}, time);
