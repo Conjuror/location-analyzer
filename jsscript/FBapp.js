@@ -121,12 +121,12 @@ function getIconFromFacebook(uid, callback) {
 }
 
 function setCurrentLocation(uid, latlng, timestamp) {
+  markersArray[uid].laPositionArray = [];
   if (!(uid in markersArray)) {
     markersArray[uid] = new google.maps.Marker({
       position: latlng,
       map: map
     });
-    markersArray[uid].laPositionArray = [];
     markersArray[uid].laPositionArray.push({'latlng': latlng, 'timestamp': timestamp});
     getIconFromFacebook(uid);
   }
