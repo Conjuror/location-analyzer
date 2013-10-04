@@ -261,7 +261,9 @@ function getNextPoint(uid) {
     curTimestamp = marker.laPositionArray[0].timestamp;
     nxtTimestamp = marker.laPositionArray[1].timestamp;
 
+
     tick = Math.floor((nxtTimestamp - curTimestamp) / timeBlock);
+    console.log("Move from " + curLatLng + " to " + nxtLatLng + " in " + tick);
     lat = (nxtLatLng.lat - curLatLng.lat) / tick;
     if (Math.abs(nxtLatLng.lng - curLatLng.lng) > 180) {
       // pass 180
