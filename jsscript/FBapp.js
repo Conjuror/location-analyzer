@@ -129,7 +129,7 @@ function getCurrentLocationFromFacebook(callback) {
     method: 'fql.query',
     query: 'SELECT current_location FROM user WHERE uid=me();'
   }, function(response) {
-    console.log("response");
+    console.log(response);
     current_location["latitude"] = response[0].latitude;
     current_location["longitude"] = response[0].longitude;
     console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
