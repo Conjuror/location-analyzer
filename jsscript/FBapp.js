@@ -174,8 +174,9 @@ function getAllFriendsLocation() {
       timestamp = response[i].timestamp;
       setCurrentLocation(uid, latlng, timestamp);
 
-      for (var j in response[i]['tagged_uids']) {
-        tagged_uid = responpse[i]['tagged_uids'][j];
+      tagged_uids = reponse[i].tagged_uids;
+      for (var j in tagged_uids) {
+        tagged_uid = tagged_uids[j];
         setCurrentLocation(tagged_uid, latlng, timestamp);
       }
     }
