@@ -192,14 +192,14 @@ function startAnimation() {
   console.log("Start calculation...");
   var now = new Date().getTime();
 
-  timeBlock = (now - timeThreshold) / (playTime / fps / 1000);
+  timeBlock = (now - timeThreshold) / (playTime * fps);
 
   // setup time interval
   for (var i in markersArray) {
     marker = markersArray[i];
     marker.animation = [];
     countPos = 0;
-    for (var j = 0 ; j < playTime*fps/1000 ; j++) {
+    for (var j = 0 ; j < playTime*fps ; j++) {
       countTime = timeThreshold + timeBlock * j;
       if (marker.laPositionArray[countPos].timestamp < countTime) {
         // not start to move
@@ -247,8 +247,8 @@ function startAnimation() {
   }
 
 
-  time = Math.floor(playTime/fps/1000)
-  console.log("Start Animation. Interval Time: " + time);
+
+  console.log("Start Animation. Interval Time: " + timeBlock);
   for (var i in markersArray) {
     intervalStoper[i] = setInterval(function(){exeAnimation(i);}, time);
   }
