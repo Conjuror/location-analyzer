@@ -272,7 +272,7 @@ function exeAnimation(uid) {
 
 function cleanInterval() {
   console.log("Clean interval...");
-  for (var i in intervalStoper) {
+  for (var i = 0 ; i < intervalStoper.length ; i++) {
     cleanInterval(intervalStoper[i]);
   }
   console.log("Done... Bye~");
