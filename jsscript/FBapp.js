@@ -183,7 +183,7 @@ function getAllFriendsLocation() {
 }
 
 var timeBlock;
-var playTime = 60000 // one minute
+var playTime = 360000 // one minute
 var fps = 20;
 
 function startAnimation() {
