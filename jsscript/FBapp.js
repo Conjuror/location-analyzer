@@ -121,6 +121,7 @@ function setCurrentLocation() {
     query: 'SELECT pic_square FROM user WHERE uid=me();'
   }, function(response) {
     myPic = response[0].pic_square;
+    console.log("Pic: " + myPic);
     var me = new google.maps.Marker({
       position: new google.maps.LatLng(current_location["latitude"], current_location["longitude"]),
       icon: myPic
