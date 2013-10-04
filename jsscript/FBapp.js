@@ -112,21 +112,6 @@ function getFriends() {
 
 function setDefaultLocation(meUid) {
   getCurrentLocationFromFacebook(meUid, setCurrentLocation);
-  // getCurrentLocationFromFacebook(function() {
-  //   FB.api({
-  //     method: 'fql.query',
-  //     query: 'SELECT pic_square FROM user WHERE uid=me();'
-  //   }, function (response) {
-  //     myPic = response[0].pic_square;
-  //     console.log("Pic: " + myPic);
-  //     var me = new google.maps.Marker({
-  //       position: new google.maps.LatLng(current_location["latitude"], current_location["longitude"]),
-  //       icon: myPic
-  //     });
-  //     me.setMap(map);
-  //     markersArray[meUid] = me;
-  //   });
-  // });
 }
 
 function getCurrentLocationFromFacebook(uid, callback) {
@@ -144,16 +129,17 @@ function getCurrentLocationFromFacebook(uid, callback) {
 
 function setCurrentLocation(uid, latlng, timestamp) {
   if (!(uid in markersArray)) {
-    pic = getIconFromFacebook(uid);
-    marker = new google.maps.Marker({
-      position: latlng,
-      icon: pic,
-      map: map
+    getIconFromFacebook(uid, function (pic) {
+      marker = new google.maps.Marker({
+        position: latlng,
+        icon: pic,
+        map: map
+      });
+      marker.laPositionArray = [];
+      marker.laPositionArray[0] = [];
+      marker.laPositionArray[0]['latlng'] = latlng;
+      marker.laPositionArray[0]['timestamp'] = timestamp;
     });
-    marker.laPositionArray = [];
-    marker.laPositionArray[0] = [];
-    marker.laPositionArray[0]['latlng'] = latlng;
-    marker.laPositionArray[0]['timestamp'] = timestamp;
   }
   else {
     marker = markersArray[uid];
@@ -164,12 +150,12 @@ function setCurrentLocation(uid, latlng, timestamp) {
   }
 }
 
-function getIconFromFacebook(uid) {
+function getIconFromFacebook(uid, callback) {
   FB.api({
     method: 'fql.query',
     query: 'SELECT pic_square FROM user WHERE uid=' + uid
   }, function (response) {
-    return response[0].pic_square;
+    callback(response[0].pic_square);
   });
 }
 
