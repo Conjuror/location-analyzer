@@ -129,12 +129,12 @@ function setCurrentLocation(uid, latlng, timestamp) {
     });
     markersArray[uid] = marker;
     marker.laPositionArray = [];
-    marker.laPositionArray.unshift({'latlng': latlng, 'timestamp': timestamp});
+    marker.laPositionArray.push({'latlng': latlng, 'timestamp': timestamp});
     getIconFromFacebook(uid);
   }
   else {
     marker = markersArray[uid];
-    marker.laPositionArray.unshift({'latlng': latlng, 'timestamp': timestamp});
+    marker.laPositionArray.push({'latlng': latlng, 'timestamp': timestamp});
   }
 }
 
@@ -249,7 +249,7 @@ function startAnimation() {
 }
 
 function getNextPoint(uid) {
-  // console.log(markersArray[uid]);
+  console.log(markersArray[uid]);
   if (markersArray[uid].laPositionArray.length > 1) {
     // moving to next position
     curLatLng = markersArray[uid].laPositionArray[markersArray[uid].curPos].latlng;
