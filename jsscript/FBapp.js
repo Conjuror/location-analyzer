@@ -196,6 +196,7 @@ function startAnimation() {
   // setup time interval
   for (var uid in markersArray) {
     marker = markersArray[uid];
+    marker.curPos = 0;
     tick = Math.ceil((marker.laPositionArray[0].timestamp - timeThreshold) / timeBlock);
     // console.log("UID: " + uid + " idles for " + tick + " ticks");
     setTimeout(function(){getNextPoint(uid);}, (tick*1000/fps));
@@ -258,10 +259,10 @@ function getNextPoint(uid) {
   console.log(marker);
   if (marker.laPositionArray.length > 1) {
     // moving to next position
-    curLatLng = marker.laPositionArray[0].latlng;
-    nxtLatLng = marker.laPositionArray[1].latlng;
-    curTimestamp = marker.laPositionArray[0].timestamp;
-    nxtTimestamp = marker.laPositionArray[1].timestamp;
+    curLatLng = marker.laPositionArray[marker.curPos].latlng;
+    nxtLatLng = marker.laPositionArray[marker.curPos+1].latlng;
+    curTimestamp = marker.laPositionArray[marker.curPos].timestamp;
+    nxtTimestamp = marker.laPositionArray[marker.curPos+1].timestamp;
 
 
     tick = Math.ceil((nxtTimestamp - curTimestamp) / timeBlock);
@@ -286,8 +287,8 @@ function getNextPoint(uid) {
       counter++;
       if (counter >= tick) {
         window.clearInterval(interval);
-        marker.laPositionArray.shift();
         setTimeout(getNextPoint(uid), 1000);
+        marker.curPos+1;
       }
     }, 1000/fps);
   }
