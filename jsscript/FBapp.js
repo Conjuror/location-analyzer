@@ -151,7 +151,6 @@ function getCurrentLocationFromFacebook(uid, callback) {
   }, function (response) {
     current_location["latitude"] = response[0]["current_location"].latitude;
     current_location["longitude"] = response[0]["current_location"].longitude;
-    console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
     latlng = new google.maps.LatLng(current_location["latitude"], current_location["longitude"]);
     callback(uid, latlng, timeThreshold);
   });
@@ -207,7 +206,7 @@ function startAnimation() {
         latlng = marker.laPositionArray[countPos].latlng;
         marker.animation.push(latlng);
       }
-      else if (countPos + 1 = marker.laPositionArray.length) {
+      else if (countPos + 1 == marker.laPositionArray.length) {
         // reach the end
         latlng = marker.laPositionArray[countPos].latlng;
         while (j++ < playTime*fps) {
