@@ -248,9 +248,9 @@ function startAnimation() {
 
 
 
-  console.log("Start Animation. Interval Time: " + timeBlock);
+  console.log("Start Animation. Interval Time: " + 1000 / fps);
   for (var i in markersArray) {
-    intervalStoper[i] = setInterval(function(){exeAnimation(i);}, timeBlock);
+    intervalStoper[i] = setInterval(function(){exeAnimation(i);}, 1000 / fps);
   }
 
   setTimeout(cleanInterval, playTime*2);
@@ -259,7 +259,7 @@ function startAnimation() {
 function exeAnimation(uid) {
   marker = markersArray[uid];
   latlng = marker.animation.shift();
-  console.log("UID: " + uid + " AT: " + latlng);
+  // console.log("UID: " + uid + " AT: " + latlng);
   marker.setPosition(latlng);
 }
 
