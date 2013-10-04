@@ -254,7 +254,7 @@ function startAnimation() {
 
 function getNextPoint(uid) {
   marker = markersArray[uid];
-  
+  console.log(marker);
   if (marker.laPositionArray.length > 1) {
     // moving to next position
     curLatLng = marker.laPositionArray[0].latlng;
