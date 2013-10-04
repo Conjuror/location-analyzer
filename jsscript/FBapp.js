@@ -182,7 +182,7 @@ function startAnimation() {
 
   for (var uid in markersArray) {
     console.log("->" + markersArray[uid].laPositionArray.length);
-    console.log(markersArray);
+    // console.log(markersArray);
   }
 
   // setup time interval
