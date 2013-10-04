@@ -4,7 +4,7 @@ var myPic;
 var current_location = [];
 var markersArray = [];
 
-var timeThreshold = 1380344400; // Oct 1st
+var timeThreshold = 1380603600; // Oct 1st
 
 window.fbAsyncInit = function() {
   // init the FB JS SDK
@@ -176,7 +176,7 @@ function getAllFriendsLocation() {
 }
 
 var timeBlock;
-var playTime = 60000 // one minute
+var playTime = 360000 // ten minute
 var fps = 20;
 
 function startAnimation() {
