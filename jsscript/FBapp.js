@@ -19,7 +19,7 @@ window.fbAsyncInit = function() {
     if (response.authResponse) {
       var meUid = response.authResponse.userID;
       var accessToken = response.authResponse.accessToken;
-      console.log("accessToken:" + accessToken);
+      // console.log("accessToken:" + accessToken);
 
       setDefaultLocation(meUid);
 
@@ -115,7 +115,6 @@ function getIconFromFacebook(uid, callback) {
     method: 'fql.query',
     query: 'SELECT pic_square FROM user WHERE uid=' + uid
   }, function (response) {
-    console.log(response);
     pic = response[0].pic_square;
     callback(pic);
   });
@@ -186,6 +185,66 @@ function getAllFriendsLocation() {
   });
 }
 
+var timeBlock;
+var playTime = 60000; // one minute
+var fps = 20;
+
+var intervalStoper = [];
+
 function startAnimation() {
   var now = new Date().getTime();
+
+  timeBlock = (now - timeThreshold) / (playTime * fps);
+
+  // setup time interval
+  for (var i in markersArray) {
+    marker = markersArray[i];
+    marker.animation = [];
+    countPos = 0;
+    for (var j = 0 ; j < playTime*fps ; j++) {
+      countTime = timeThreshold + timeBlock * j;
+      if (marker.laPositionArray[countPos].timestamp < countTime) {
+        // not start to move
+        latlng = marker.laPositionArray[countPos].latlng;
+        marker.animation.push(latlng);
+      }
+      else if (countPos + 1 = marker.laPositionArray.length) {
+        // reach the end
+        latlng = marker.laPositionArray[countPos].latlng;
+        while (j++ < playTime*fps) {
+          marker.animation.push(latlng);
+        }
+      }
+      else {
+        // moving to next position
+        curLatLng = marker.laPositionArray[countPos].latlng;
+        nxtLatLng = marker.laPositionArray[countPos+1].latlng;
+        curTimestamp = marker.laPositionArray[countPos].timestamp;
+        nxtTimestamp = marker.laPositionArray[countPos+1].timestamp;
+
+        if ((nxtTimestamp - curTimestamp) <= timeBlock) {
+          marker.animation.push(curLatLng);
+          curPos += 1;
+        }
+        else {
+          lat = 0;
+          lng = 0;
+          slot = Math.floor((nxtTimestamp - curTimestamp) / timeBlock);
+          lat = (nxtLatLng.lat - curLatLng.lat) / slot;
+          if (Math.abs(nxtLatLng.lng - curLatLng.lng) > 180) {
+            // pass 180
+            lng = ((nxtLatLng.lng-curLatLng.lng)/Math.abs(nxtLatLng.lng-curLatLng)*(360-Math.abs(nxtLatLng.lng-curLatLng.lng))) / slot;
+          }
+          else {
+            lng = (nxtLatLng.lng - curLatLng.lng) / slot;
+          }
+          for (var k = 0 ; k < slot ; k++, j++) {
+            latlng = new google.maps.LatLng(curLatLng.lat+lat*k, curLatLng.lng+lng*k);
+            marker.animation.push(latlng);
+          }
+          curPos += 1;
+        }
+      }
+    }
+  }
 }
