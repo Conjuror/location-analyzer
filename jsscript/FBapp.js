@@ -111,6 +111,7 @@ function getFriends() {
 }
 
 function getIconFromFacebook(uid, callback) {
+  console.log("Query Pic: "+uid);
   FB.api({
     method: 'fql.query',
     query: 'SELECT pic_square FROM user WHERE uid=' + uid
@@ -128,11 +129,11 @@ function setCurrentLocation(uid, latlng, timestamp) {
         icon: pic,
         map: map
       });
+      markersArray[uid] = marker;
       marker.laPositionArray = [];
       marker.laPositionArray[0] = [];
       marker.laPositionArray[0]['latlng'] = latlng;
       marker.laPositionArray[0]['timestamp'] = timestamp;
-      markersArray[uid] = marker;
     });
   }
   else {
