@@ -166,13 +166,13 @@ function getAllFriendsLocation() {
     query: 'SELECT author_uid, coords, timestamp, tagged_uids FROM checkin WHERE author_uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me()) and timestamp > ' + timeThreshold+ ' ORDER BY timestamp;'
   }, function (response) {
     console.log(response);
-    for (var i in response[0]) {
-      uid = response[0][i].author_uid;
-      latlng = new google.maps.LatLng(response[0][i]['coords'].latitude, response[0][i]['coords'].longitude);
-      timestamp = response[0][i].timestamp;
+    for (var i in response) {
+      uid = response[i].author_uid;
+      latlng = new google.maps.LatLng(response[i]['coords'].latitude, response[i]['coords'].longitude);
+      timestamp = response[i].timestamp;
       setCurrentLocation(uid, latlng, timestamp);
 
-      for (var j in response[0][i]['tagged_uids']) {
+      for (var j in response[i]['tagged_uids']) {
         setCurrentLocation(j, latlng, timestamp);
       }
     }
