@@ -7,7 +7,7 @@ window.fbAsyncInit = function() {
   // init the FB JS SDK
   FB.init({
     appId: '212467558922080', // App ID from the app dashboard
-    channelUrl: '//rawgithub.com/Conjuror/location-analyzer/api-004/facebook/location-analyzer/channel.html', // Channel file for x-domain comms
+    channelUrl: '//rawgithub.com/Conjuror/location-analyzer/api-005/facebook/location-analyzer/channel.html', // Channel file for x-domain comms
     status: true, // Check Facebook Login status
     xfbml: true // Look for social plugins on the page
   });
@@ -166,14 +166,14 @@ function getAllFriendsLocation() {
       }
     }
 
-    console.log("2. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
+    // console.log("2. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
     setTimeout(startAnimation, 15000);
   });
 }
 
 var timeBlock;
-var playTime = 360000 // ten minute
-var fps = 2000;
+var playTime = 600000 // ten minute
+var fps = 20;
 
 function startAnimation() {
   var now = new Date().getTime();
@@ -191,7 +191,7 @@ function startAnimation() {
     markersArray[uid].curPos = 0;
     tick = Math.ceil((markersArray[uid].laPositionArray[0].timestamp - timeThreshold) / timeBlock);
     console.log("UID: " + uid + " idles for " + tick + " ticks");
-    console.log("4. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
+    // console.log("4. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
     // setTimeout(function(){getNextPoint(uid);}, (tick*1000/fps));
     doSetTimeout(uid, tick*100/fps);
   }
@@ -203,9 +203,8 @@ function doSetTimeout(uid, time) {
 }
 
 function getNextPoint(uid) {
-  console.log("5. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
+  // console.log("5. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
   if (markersArray[uid].laPositionArray.length > 1) {
-    console.log("hio");
     // moving to next position
     curLatLng = markersArray[uid].laPositionArray[markersArray[uid].curPos].latlng;
     nxtLatLng = markersArray[uid].laPositionArray[markersArray[uid].curPos+1].latlng;
