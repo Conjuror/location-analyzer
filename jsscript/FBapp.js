@@ -10,7 +10,7 @@ window.fbAsyncInit = function() {
   // init the FB JS SDK
   FB.init({
     appId: '212467558922080', // App ID from the app dashboard
-    channelUrl: '//rawgithub.com/Conjuror/location-analyzer/api-002/facebook/location-analyzer/channel.html', // Channel file for x-domain comms
+    channelUrl: '//rawgithub.com/Conjuror/location-analyzer/api-003/facebook/location-analyzer/channel.html', // Channel file for x-domain comms
     status: true, // Check Facebook Login status
     xfbml: true // Look for social plugins on the page
   });
@@ -183,97 +183,109 @@ function getAllFriendsLocation() {
 }
 
 var timeBlock;
-var playTime = 360000; // one minute
+var playTime = 60000 // one minute
 var fps = 20;
-
-var intervalStoper = [];
 
 function startAnimation() {
   var now = new Date().getTime();
 
-  timeBlock = (now - timeThreshold) / (playTime * fps);
-  console.log("Start calculation... TimeBlock: "+ timeBlock);
+  timeBlock = (now-timeThreshold) / (playtime*fps);
+  console.log("Start calculation... TimeBlock: " + timeBlock);
 
   // setup time interval
-  for (var i in markersArray) {
-    marker = markersArray[i];
-    marker.animation = [];
-    countPos = 0;
-    for (var j = 0 ; j < playTime*fps ; j++) {
-      countTime = timeThreshold + timeBlock * j;
-      if (countPos == 0 && marker.laPositionArray[0].timestamp < countTime) {
-        // not start to move
-        latlng = marker.laPositionArray[countPos].latlng;
-        marker.animation.push(latlng);
-      }
-      else if (countPos + 1 == marker.laPositionArray.length) {
-        // reach the end
-        latlng = marker.laPositionArray[countPos].latlng;
-        while (j++ < playTime*fps) {
-          marker.animation.push(latlng);
-        }
-      }
-      else {
-        // moving to next position
-        curLatLng = marker.laPositionArray[countPos].latlng;
-        nxtLatLng = marker.laPositionArray[countPos+1].latlng;
-        curTimestamp = marker.laPositionArray[countPos].timestamp;
-        nxtTimestamp = marker.laPositionArray[countPos+1].timestamp;
+  for (var uid in markersArray) {
+    marker = markersArray[uid];
+    tick = (marker.laPositionArray[0].timestamp - timeThreshold) / timeBlock;
+    setTimeout(function(){getNextPoint(uid);}, Math.floor(1000/fps*tick));
+    // for (var j = 0 ; j < playTime*fps ; j++) {
+    //   countTime = timeThreshold + timeBlock * j;
+    //   if (countPos == 0 && marker.laPositionArray[0].timestamp < countTime) {
+    //     // not start to move
+    //     latlng = marker.laPositionArray[countPos].latlng;
+    //     marker.animation.push(latlng);
+    //   }
+    //   else if (countPos + 1 == marker.laPositionArray.length) {
+    //     // reach the end
+    //     latlng = marker.laPositionArray[countPos].latlng;
+    //     while (j++ < playTime*fps) {
+    //       marker.animation.push(latlng);
+    //     }
+    //   }
+    //   else {
+    //     // moving to next position
+    //     curLatLng = marker.laPositionArray[countPos].latlng;
+    //     nxtLatLng = marker.laPositionArray[countPos+1].latlng;
+    //     curTimestamp = marker.laPositionArray[countPos].timestamp;
+    //     nxtTimestamp = marker.laPositionArray[countPos+1].timestamp;
 
-        ttt = nxtTimestamp - curTimestamp;
+    //     ttt = nxtTimestamp - curTimestamp;
 
-        console.log("Move from " + curLatLng + " to " + nxtLatLng + " in " + ttt);
+    //     console.log("Move from " + curLatLng + " to " + nxtLatLng + " in " + ttt);
 
-        if ((nxtTimestamp - curTimestamp) <= timeBlock) {
-          marker.animation.push(curLatLng);
-          countPos += 1;
-        }
-        else {
-          lat = 0;
-          lng = 0;
-          slot = Math.floor((nxtTimestamp - curTimestamp) / timeBlock);
-          lat = (nxtLatLng.lat - curLatLng.lat) / slot;
-          if (Math.abs(nxtLatLng.lng - curLatLng.lng) > 180) {
-            // pass 180
-            lng = ((nxtLatLng.lng-curLatLng.lng)/Math.abs(nxtLatLng.lng-curLatLng)*(360-Math.abs(nxtLatLng.lng-curLatLng.lng))) / slot;
-          }
-          else {
-            lng = (nxtLatLng.lng - curLatLng.lng) / slot;
-          }
-          for (var k = 0 ; k < slot ; k++, j++) {
-            latlng = new google.maps.LatLng(curLatLng.lat+lat*k, curLatLng.lng+lng*k);
-            console.log("push " + latlng);
-            marker.animation.push(latlng);
-          }
-          countPos += 1;
-        }
-      }
-    }
+    //     if ((nxtTimestamp - curTimestamp) <= timeBlock) {
+    //       marker.animation.push(curLatLng);
+    //       countPos += 1;
+    //     }
+    //     else {
+    //       lat = 0;
+    //       lng = 0;
+    //       slot = Math.floor((nxtTimestamp - curTimestamp) / timeBlock);
+    //       lat = (nxtLatLng.lat - curLatLng.lat) / slot;
+    //       if (Math.abs(nxtLatLng.lng - curLatLng.lng) > 180) {
+    //         // pass 180
+    //         lng = ((nxtLatLng.lng-curLatLng.lng)/Math.abs(nxtLatLng.lng-curLatLng)*(360-Math.abs(nxtLatLng.lng-curLatLng.lng))) / slot;
+    //       }
+    //       else {
+    //         lng = (nxtLatLng.lng - curLatLng.lng) / slot;
+    //       }
+    //       for (var k = 0 ; k < slot ; k++, j++) {
+    //         latlng = new google.maps.LatLng(curLatLng.lat+lat*k, curLatLng.lng+lng*k);
+    //         console.log("push " + latlng);
+    //         marker.animation.push(latlng);
+    //       }
+    //       countPos += 1;
+    //     }
+    //   }
+    // }
   }
-
-
-
   console.log("Start Animation. Interval Time: " + 1000 / fps);
-  for (var i in markersArray) {
-    intervalStoper.push(setInterval(function(){exeAnimation(i);}, 1000 / fps));
-  }
-
-  setTimeout(cleanInterval, playTime*2);
 }
 
-function exeAnimation(uid) {
+function getNextPoint(uid) {
   marker = markersArray[uid];
-  if (marker.animation[0] != marker.animation[1]) {
-    console.log("UID: " + uid + " moves from " + marker.animation[0] + " to " + marker.animation[1]);
-  }
-  latlng = marker.animation.shift();
-  marker.setPosition(latlng);
-}
+  
+  if (marker.laPositionArray.length > 1) {
+    // moving to next position
+    curLatLng = marker.laPositionArray[0].latlng;
+    nxtLatLng = marker.laPositionArray[1].latlng;
+    curTimestamp = marker.laPositionArray[0].timestamp;
+    nxtTimestamp = marker.laPositionArray[1].timestamp;
 
-function cleanInterval() {
-  console.log("Clean interval...");
-  for (var i = 0 ; i < intervalStoper.length ; i++) {
-    cleanInterval(intervalStoper[i]);
+    tick = Math.floor((nxtTimestamp - curTimestamp) / timeBlock);
+    lat = (nxtLatLng.lat - curLatLng.lat) / tick;
+    if (Math.abs(nxtLatLng.lng - curLatLng.lng) > 180) {
+      // pass 180
+      lng = ((nxtLatLng.lng - curLatLng.lng) / Math.abs(nxtLatLng.lng - curLatLng) * (360 - Math.abs(nxtLatLng.lng - curLatLng.lng))) / slot;
+    } else {
+      lng = (nxtLatLng.lng - curLatLng.lng) / slot;
+    }
+
+    counter = 0;
+    interval = window.setInterval(function() {
+      newLng = curLatLng.lng + lng;
+      if (newLng > 180)
+        newLng -= 360;
+      else if (newLng < -180)
+        newLng += 360;
+      var latlng = new google.maps.LatLng(curLatLng.lat+lat*counter, newLng);
+      marker.setPosition(latlng);
+      counter++;
+      if (counter >= tick) {
+        window.clearInterval(interval);
+        setTimeout(getNextPoint(uid), 1000);
+      }
+    }, 1000/fps);
+    marker.laPositionArray.shift();
   }
-  console.log("Done... Bye~");
+
 }
