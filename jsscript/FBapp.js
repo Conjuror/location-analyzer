@@ -247,12 +247,12 @@ function startAnimation() {
     }
   }
 
-  time = Math.floor(playTime/fps)
-  for (var i in markersArray) {
-    intervalStoper[i] = setInterval(exeAnimation(i), time);
-  }
+  // time = Math.floor(playTime/fps)
+  // for (var i in markersArray) {
+  //   intervalStoper[i] = setInterval(exeAnimation(i), time);
+  // }
 
-  setTimeout(cleanInterval, playTime);
+  // setTimeout(cleanInterval, playTime);
 }
 
 function exeAnimation(i) {
