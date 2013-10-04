@@ -171,7 +171,7 @@ function getAllFriendsLocation() {
       }
     }
 
-    setTimeout(startAnimation(), 15000);
+    setTimeout(startAnimation, 15000);
   });
 }
 
@@ -192,56 +192,6 @@ function startAnimation() {
     tick = Math.ceil((marker.laPositionArray[0].timestamp - timeThreshold) / timeBlock);
     // console.log("UID: " + uid + " idles for " + tick + " ticks");
     setTimeout(function(){getNextPoint(uid);}, (tick*1000/fps));
-    // for (var j = 0 ; j < playTime*fps ; j++) {
-    //   countTime = timeThreshold + timeBlock * j;
-    //   if (countPos == 0 && marker.laPositionArray[0].timestamp < countTime) {
-    //     // not start to move
-    //     latlng = marker.laPositionArray[countPos].latlng;
-    //     marker.animation.push(latlng);
-    //   }
-    //   else if (countPos + 1 == marker.laPositionArray.length) {
-    //     // reach the end
-    //     latlng = marker.laPositionArray[countPos].latlng;
-    //     while (j++ < playTime*fps) {
-    //       marker.animation.push(latlng);
-    //     }
-    //   }
-    //   else {
-    //     // moving to next position
-    //     curLatLng = marker.laPositionArray[countPos].latlng;
-    //     nxtLatLng = marker.laPositionArray[countPos+1].latlng;
-    //     curTimestamp = marker.laPositionArray[countPos].timestamp;
-    //     nxtTimestamp = marker.laPositionArray[countPos+1].timestamp;
-
-    //     ttt = nxtTimestamp - curTimestamp;
-
-    //     console.log("Move from " + curLatLng + " to " + nxtLatLng + " in " + ttt);
-
-    //     if ((nxtTimestamp - curTimestamp) <= timeBlock) {
-    //       marker.animation.push(curLatLng);
-    //       countPos += 1;
-    //     }
-    //     else {
-    //       lat = 0;
-    //       lng = 0;
-    //       slot = Math.floor((nxtTimestamp - curTimestamp) / timeBlock);
-    //       lat = (nxtLatLng.lat - curLatLng.lat) / slot;
-    //       if (Math.abs(nxtLatLng.lng - curLatLng.lng) > 180) {
-    //         // pass 180
-    //         lng = ((nxtLatLng.lng-curLatLng.lng)/Math.abs(nxtLatLng.lng-curLatLng)*(360-Math.abs(nxtLatLng.lng-curLatLng.lng))) / slot;
-    //       }
-    //       else {
-    //         lng = (nxtLatLng.lng - curLatLng.lng) / slot;
-    //       }
-    //       for (var k = 0 ; k < slot ; k++, j++) {
-    //         latlng = new google.maps.LatLng(curLatLng.lat+lat*k, curLatLng.lng+lng*k);
-    //         console.log("push " + latlng);
-    //         marker.animation.push(latlng);
-    //       }
-    //       countPos += 1;
-    //     }
-    //   }
-    // }
   }
   console.log("Start Animation. Interval Time: " + 1000 / fps);
 }
