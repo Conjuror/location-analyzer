@@ -116,7 +116,7 @@ function getIconFromFacebook(uid, callback) {
     query: 'SELECT pic_square FROM user WHERE uid=' + uid
   }, function (response) {
     pic = response[0].pic_square;
-    callback(pic);
+    markersArray[uid].setIcon(pic);
   });
 }
 
@@ -132,9 +132,7 @@ function setCurrentLocation(uid, latlng, timestamp) {
     marker.laPositionArray[0]['latlng'] = latlng;
     marker.laPositionArray[0]['timestamp'] = timestamp;
     markersArray[uid] = marker;
-    getIconFromFacebook(uid, function (pic) {
-      marker.setIcon(pic);
-    });
+    getIconFromFacebook(uid);
   }
   else {
     marker = markersArray[uid];
