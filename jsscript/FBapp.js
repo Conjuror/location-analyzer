@@ -177,7 +177,7 @@ var fps = 20;
 function startAnimation() {
   var now = new Date().getTime();
 
-  timeBlock = now-timeThreshold / playTime / fps;
+  timeBlock = (now-timeThreshold) / playTime / fps;
   console.log("Start calculation... TimeBlock: " + timeBlock);
 
   for (var uid in markersArray) {
