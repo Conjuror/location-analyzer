@@ -167,7 +167,6 @@ function getAllFriendsLocation() {
     method: 'fql.query',
     query: 'SELECT author_uid, coords, timestamp, tagged_uids FROM checkin WHERE author_uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me()) and timestamp > ' + timeThreshold+ ' ORDER BY timestamp;'
   }, function (response) {
-    console.log(response);
     for (var i in response) {
       uid = response[i].author_uid;
       latlng = new google.maps.LatLng(response[i]['coords'].latitude, response[i]['coords'].longitude);
@@ -246,5 +245,23 @@ function startAnimation() {
         }
       }
     }
+  }
+
+  time = Math.floor(playTime/fps)
+  for (var i in markersArray) {
+    intervalStoper[i] = setInterval(exeAnimation(i), time);
+  }
+
+  setTimeout(cleanInterval, playTime);
+}
+
+function exeAnimation(i) {
+  marker = markersArray[i];
+  marker.setPosition(marker.animation.shift());
+}
+
+function cleanInterval() {
+  for (var i in intervalStoper) {
+    cleanInterval(intervalStoper[i]);
   }
 }
