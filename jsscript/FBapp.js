@@ -180,22 +180,23 @@ function startAnimation() {
   timeBlock = (now-timeThreshold) / playTime / fps;
   console.log("Start calculation... TimeBlock: " + timeBlock);
 
-  for (var uid in markersArray) {
-    console.log("->" + markersArray[uid].laPositionArray.length);
-    // console.log(markersArray);
-  }
+  // for (var uid in markersArray) {
+  //   console.log("->" + markersArray[uid].laPositionArray.length);
+  //   // console.log(markersArray);
+  // }
 
   // setup time interval
   for (var uid in markersArray) {
     markersArray[uid].curPos = 0;
     tick = Math.ceil((markersArray[uid].laPositionArray[0].timestamp - timeThreshold) / timeBlock);
-    // console.log("UID: " + uid + " idles for " + tick + " ticks");
+    console.log("UID: " + uid + " idles for " + tick + " ticks");
     setTimeout(function(){getNextPoint(uid);}, (tick*1000/fps));
   }
   console.log("Start Animation. Interval Time: " + 1000 / fps);
 }
 
 function getNextPoint(uid) {
+  console.log("hi");
   if (markersArray[uid].laPositionArray.length > 1) {
     // moving to next position
     curLatLng = markersArray[uid].laPositionArray[markersArray[uid].curPos].latlng;
