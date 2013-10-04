@@ -21,6 +21,9 @@ window.fbAsyncInit = function() {
       meUid = response.authResponse.userID;
       var accessToken = response.authResponse.accessToken;
       // console.log("accessToken:" + accessToken);
+  
+      setDefaultLocation(meUid);
+      getAllFriendsLocation();
     }
   }, {
     scope: 'user_location, user_friends, user_status, friends_status'
@@ -47,7 +50,7 @@ window.fbAsyncInit = function() {
       // (1) JavaScript created popup windows are blocked by most browsers unless they 
       // result from direct interaction from people using the app (such as a mouse click)
       // (2) it is a bad experience to be continually prompted to login upon page load.
-      FB.login();
+      // FB.login();
     } else {
       // In this case, the person is not logged into Facebook, so we call the login() 
       // function to prompt them to do so. Note that at this stage there is no indication
@@ -81,9 +84,6 @@ function testAPI() {
   FB.api('/me', function (response) {
     console.log('Good to see you, ' + response.name + '.');
   });
-  
-  setDefaultLocation(meUid);
-  getAllFriendsLocation();
 }
 
 function locationGetter() {
