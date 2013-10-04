@@ -127,11 +127,11 @@ function setCurrentLocation(uid, latlng, timestamp) {
       position: latlng,
       map: map
     });
+    markersArray[uid] = marker;
     marker.laPositionArray = [];
     marker.laPositionArray[0] = [];
     marker.laPositionArray[0]['latlng'] = latlng;
     marker.laPositionArray[0]['timestamp'] = timestamp;
-    markersArray[uid] = marker;
     getIconFromFacebook(uid);
   }
   else {
@@ -255,14 +255,13 @@ function startAnimation() {
 }
 
 function getNextPoint(uid) {
-  marker = markersArray[uid];
-  console.log(marker);
-  if (marker.laPositionArray.length > 1) {
+  // console.log(markersArray[uid]);
+  if (markersArray[uid].laPositionArray.length > 1) {
     // moving to next position
-    curLatLng = marker.laPositionArray[marker.curPos].latlng;
-    nxtLatLng = marker.laPositionArray[marker.curPos+1].latlng;
-    curTimestamp = marker.laPositionArray[marker.curPos].timestamp;
-    nxtTimestamp = marker.laPositionArray[marker.curPos+1].timestamp;
+    curLatLng = markersArray[uid].laPositionArray[markersArray[uid].curPos].latlng;
+    nxtLatLng = markersArray[uid].laPositionArray[markersArray[uid].curPos+1].latlng;
+    curTimestamp = markersArray[uid].laPositionArray[markersArray[uid].curPos].timestamp;
+    nxtTimestamp = markersArray[uid].laPositionArray[markersArray[uid].curPos+1].timestamp;
 
 
     tick = Math.ceil((nxtTimestamp - curTimestamp) / timeBlock);
@@ -283,12 +282,12 @@ function getNextPoint(uid) {
       else if (newLng < -180)
         newLng += 360;
       var latlng = new google.maps.LatLng(curLatLng.lat+lat*counter, newLng);
-      marker.setPosition(latlng);
+      markersArray[uid].setPosition(latlng);
       counter++;
       if (counter >= tick) {
         window.clearInterval(interval);
         setTimeout(getNextPoint(uid), 1000);
-        marker.curPos+1;
+        markersArray[uid].curPos+1;
       }
     }, 1000/fps);
   }
