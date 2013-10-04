@@ -250,7 +250,7 @@ function startAnimation() {
 
   console.log("Start Animation. Interval Time: " + timeBlock);
   for (var i in markersArray) {
-    intervalStoper[i] = setInterval(function(){exeAnimation(i);}, time);
+    intervalStoper[i] = setInterval(function(){exeAnimation(i);}, timeBlock);
   }
 
   setTimeout(cleanInterval, playTime*2);
