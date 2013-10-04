@@ -110,20 +110,12 @@ function getFriends() {
   });
 }
 
-function setDefaultLocation(meUid) {
-  getCurrentLocationFromFacebook(meUid, setCurrentLocation);
-}
-
-function getCurrentLocationFromFacebook(uid, callback) {
+function getIconFromFacebook(uid, callback) {
   FB.api({
     method: 'fql.query',
-    query: 'SELECT current_location FROM user WHERE uid=me();'
+    query: 'SELECT pic_square FROM user WHERE uid=' + uid
   }, function (response) {
-    current_location["latitude"] = response[0]["current_location"].latitude;
-    current_location["longitude"] = response[0]["current_location"].longitude;
-    console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
-    latlng = new google.maps.LatLng(current_location["latitude"], current_location["longitude"]);
-    callback(uid, latlng, timeThreshold);
+    callback(response[0].pic_square);
   });
 }
 
@@ -150,13 +142,21 @@ function setCurrentLocation(uid, latlng, timestamp) {
   }
 }
 
-function getIconFromFacebook(uid, callback) {
+function getCurrentLocationFromFacebook(uid, callback) {
   FB.api({
     method: 'fql.query',
-    query: 'SELECT pic_square FROM user WHERE uid=' + uid
+    query: 'SELECT current_location FROM user WHERE uid=me();'
   }, function (response) {
-    callback(response[0].pic_square);
+    current_location["latitude"] = response[0]["current_location"].latitude;
+    current_location["longitude"] = response[0]["current_location"].longitude;
+    console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
+    latlng = new google.maps.LatLng(current_location["latitude"], current_location["longitude"]);
+    callback(uid, latlng, timeThreshold);
   });
+}
+
+function setDefaultLocation(meUid) {
+  getCurrentLocationFromFacebook(meUid, setCurrentLocation);
 }
 
 function getAllFriendsLocation() {
@@ -165,6 +165,16 @@ function getAllFriendsLocation() {
     method: 'fql.query',
     query: 'SELECT author_uid, coords, timestamp, tagged_uids FROM checkin WHERE author_uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me()) and timestamp > ' + timeThreshold+ ' ORDER BY timestamp;'
   }, function (response) {
+    console.log(response);
+    for (var i in response[0]) {
+      uid = response[0][i].author_uid;
+      latlng = new google.maps.LatLng(response[0][i]['coords'].latitude, response[0][i]['coords].longitude']);
+      timestamp = response[0][i].timestamp;
+      setCurrentLocation(uid, latlng, timestamp);
 
+      for (var j in response[0][i]['tagged_uids']) {
+        setCurrentLocation(j, latlng, timestamp);
+      }
+    }
   });
 }
