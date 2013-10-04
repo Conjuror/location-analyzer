@@ -129,18 +129,12 @@ function setCurrentLocation(uid, latlng, timestamp) {
     });
     markersArray[uid] = marker;
     marker.laPositionArray = [];
-    marker.laPositionArray[0] = [];
-    marker.laPositionArray[0]['latlng'] = latlng;
-    marker.laPositionArray[0]['timestamp'] = timestamp;
+    marker.laPositionArray.unshift(['latlng': latlng, 'timestamp': timestamp]);
     getIconFromFacebook(uid);
   }
   else {
     marker = markersArray[uid];
-    len = marker.laPositionArray.length;
-    console.log(uid + " " + len);
-    marker.laPositionArray[len] = [];
-    marker.laPositionArray[len]['latlng'] = latlng;
-    marker.laPositionArray[len]['timestamp'] = timestamp;
+    marker.laPositionArray.unshift(['latlng': latlng, 'timestamp': timestamp]);
   }
 }
 
