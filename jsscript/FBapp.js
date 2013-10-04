@@ -250,16 +250,16 @@ function startAnimation() {
   time = Math.floor(playTime/fps)
   console.log("Start Animation. Interval Time: " + time);
   for (var i in markersArray) {
-    intervalStoper[i] = setTimeout(exeAnimation(i), time);
+    intervalStoper[i] = setInterval(function(){PexeAnimation(i);}, time);
   }
 
-  setTimeout(cleanInterval, playTime);
+  // setTimeout(cleanInterval, playTime);
 }
 
-function exeAnimation(i) {
-  marker = markersArray[i];
+function exeAnimation(uid) {
+  marker = markersArray[uid];
   latlng = marker.animation.shift();
-  console.log("UID: " + i + " AT: " + latlng);
+  console.log("UID: " + uid + " AT: " + latlng);
   marker.setPosition(latlng);
 }
 
