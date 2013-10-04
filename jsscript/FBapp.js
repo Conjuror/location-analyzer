@@ -180,7 +180,6 @@ function startAnimation() {
 
   timeBlock = (now-timeThreshold) / playTime / fps;
   console.log("Start calculation... TimeBlock: " + timeBlock);
-  console.log("3. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
 
   // for (var uid in markersArray) {
   //   console.log("->" + markersArray[uid].laPositionArray.length);
