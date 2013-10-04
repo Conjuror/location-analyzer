@@ -189,10 +189,10 @@ var fps = 20;
 var intervalStoper = [];
 
 function startAnimation() {
-  console.log("Start calculation...");
   var now = new Date().getTime();
 
   timeBlock = (now - timeThreshold) / (playTime * fps);
+  console.log("Start calculation... TimeBlock: "+ timeBlock);
 
   // setup time interval
   for (var i in markersArray) {
@@ -255,10 +255,8 @@ function startAnimation() {
 
   console.log("Start Animation. Interval Time: " + 1000 / fps);
   for (var i in markersArray) {
-    intervalStoper[i] = setInterval(function(){exeAnimation(i);}, 1000 / fps);
+    intervalStoper.push(setInterval(function(){exeAnimation(i);}, 1000 / fps));
   }
-
-  console.log("Clean interval...");
 
   setTimeout(cleanInterval, playTime*2);
 }
@@ -273,6 +271,7 @@ function exeAnimation(uid) {
 }
 
 function cleanInterval() {
+  console.log("Clean interval...");
   for (var i in intervalStoper) {
     cleanInterval(intervalStoper[i]);
   }
