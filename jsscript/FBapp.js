@@ -201,7 +201,7 @@ function startAnimation() {
     countPos = 0;
     for (var j = 0 ; j < playTime*fps ; j++) {
       countTime = timeThreshold + timeBlock * j;
-      if (marker.laPositionArray[countPos].timestamp < countTime) {
+      if (countPos == 0 && marker.laPositionArray[0].timestamp < countTime) {
         // not start to move
         latlng = marker.laPositionArray[countPos].latlng;
         marker.animation.push(latlng);
