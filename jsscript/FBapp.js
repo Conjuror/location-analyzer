@@ -183,7 +183,7 @@ function getAllFriendsLocation() {
 }
 
 var timeBlock;
-var playTime = 120000 // one minute
+var playTime = 60000 // one minute
 var fps = 20;
 
 function startAnimation() {
@@ -197,7 +197,7 @@ function startAnimation() {
     marker = markersArray[uid];
     tick = (marker.laPositionArray[0].timestamp - timeThreshold) / timeBlock;
     console.log("UID: " + uid + " idles for " + tick + " ticks");
-    setTimeout(function(){getNextPoint(uid);}, Math.floor(1000/fps*tick));
+    setTimeout(function(){getNextPoint(uid);}, Math.ceil(1000/fps*tick));
     // for (var j = 0 ; j < playTime*fps ; j++) {
     //   countTime = timeThreshold + timeBlock * j;
     //   if (countPos == 0 && marker.laPositionArray[0].timestamp < countTime) {
@@ -263,7 +263,7 @@ function getNextPoint(uid) {
     nxtTimestamp = marker.laPositionArray[1].timestamp;
 
 
-    tick = Math.floor((nxtTimestamp - curTimestamp) / timeBlock);
+    tick = Math.ceil((nxtTimestamp - curTimestamp) / timeBlock);
     console.log("Move from " + curLatLng + " to " + nxtLatLng + " in " + tick);
     lat = (nxtLatLng.lat - curLatLng.lat) / tick;
     if (Math.abs(nxtLatLng.lng - curLatLng.lng) > 180) {
