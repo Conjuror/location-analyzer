@@ -2,6 +2,7 @@
 
 var myPic;
 var current_location = [];
+var markersArray = [];
 
 window.fbAsyncInit = function() {
   // init the FB JS SDK
@@ -12,13 +13,13 @@ window.fbAsyncInit = function() {
     xfbml: true // Look for social plugins on the page
   });
 
-  FB.login(function(response) {
+  FB.login(function (response) {
     if (response.authResponse) {
-      var uid = response.authResponse.userID;
+      var meUid = response.authResponse.userID;
       var accessToken = response.authResponse.accessToken;
       console.log("accessToken:" + accessToken);
 
-      setCurrentLocation();
+      setDefaultLocation();
 
       // Get Friends
       getAllFriendsLocation();
@@ -33,7 +34,7 @@ window.fbAsyncInit = function() {
   // for any authentication related change, such as login, logout or session refresh. This means that
   // whenever someone who was previously logged out tries to log in again, the correct case below 
   // will be handled. 
-  FB.Event.subscribe('auth.authResponseChange', function(response) {
+  FB.Event.subscribe('auth.authResponseChange', function (response) {
     // Here we specify what we do with the response anytime this event occurs. 
     if (response.status === 'connected') {
       // The response object is returned with a status field that lets the app know the current
@@ -79,7 +80,7 @@ window.fbAsyncInit = function() {
 
 function testAPI() {
   console.log('Welcome!  Fetching your information.... ');
-  FB.api('/me', function(response) {
+  FB.api('/me', function (response) {
     console.log('Good to see you, ' + response.name + '.');
   });
 }
@@ -89,7 +90,7 @@ function locationGetter() {
   FB.api({
     method: 'fql.query',
     query: 'SELECT author_uid, checkin_id, coords, timestamp FROM checkin WHERE author_uid=me();'
-  }, function(response) {
+  }, function (response) {
     console.log(response);
   });
 }
@@ -99,7 +100,7 @@ function getFriends() {
   FB.api({
     method: 'fql.query',
     query: 'SELECT uid FROM user WHERE uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me());'
-  }, function(response) {
+  }, function (response) {
     for (var i in response) {
       friendList[friendList.length][0] = response[i].uid;
     }
@@ -107,12 +108,12 @@ function getFriends() {
   });
 }
 
-function setCurrentLocation() {
+function setDefaultLocation() {
   getCurrentLocationFromFacebook(function() {
     FB.api({
       method: 'fql.query',
       query: 'SELECT pic_square FROM user WHERE uid=me();'
-    }, function(response) {
+    }, function (response) {
       myPic = response[0].pic_square;
       console.log("Pic: " + myPic);
       var me = new google.maps.Marker({
@@ -120,7 +121,36 @@ function setCurrentLocation() {
         icon: myPic
       });
       me.setMap(map);
+      markersArray[meUid] = me;
     });
+  });
+}
+
+function setCurrentLocation(uid, latlng, timestamp) {
+  if (!(uid in markersArray[uid])) {
+    pic = getIconFromFacebook(uid);
+    marker = new google.maps.Marker({
+      position: latlng,
+      icon: pic,
+      map: map
+    });
+    marker.laPositionArray[0]['latlng'] = latlng;
+    marker.laPositionArray[0]['timestamp'] = timestamp;
+  }
+  else {
+    marker = markersArray[uid];
+    len = marker.laPositionArray.length;
+    marker.laPositionArray[len]['latlng'] = latlng;
+    marker.laPositionArray[len]['timestamp'] = timestamp;
+  }
+}
+
+function getIconFromFacebook(uid) {
+  FB.api({
+    method: 'fql.query',
+    query: 'SELECT pic_square FROM user WHERE uid=' + uid
+  }, function (response) {
+    return response[0].pic_square;
   });
 }
 
@@ -128,8 +158,7 @@ function getCurrentLocationFromFacebook(callback) {
   FB.api({
     method: 'fql.query',
     query: 'SELECT current_location FROM user WHERE uid=me();'
-  }, function(response) {
-    console.log(response);
+  }, function (response) {
     current_location["latitude"] = response[0]["current_location"].latitude;
     current_location["longitude"] = response[0]["current_location"].longitude;
     console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
@@ -142,7 +171,7 @@ function getAllFriendsLocation() {
   FB.api({
     method: 'fql.query',
     query: 'SELECT author_uid, coords, timestamp, tagged_uids FROM checkin WHERE author_uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me()) and timestamp > 1380344400 ORDER BY timestamp;'
-  }, function(response) {
-
+  }, function (response) {
+    
   });
 }
