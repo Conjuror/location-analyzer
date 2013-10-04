@@ -115,7 +115,9 @@ function getIconFromFacebook(uid, callback) {
     method: 'fql.query',
     query: 'SELECT pic_square FROM user WHERE uid=' + uid
   }, function (response) {
-    callback(response.pic_square);
+    console.log(response);
+    pic = response[0].pic_square;
+    callback(pic);
   });
 }
 
