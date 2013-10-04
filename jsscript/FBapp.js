@@ -257,6 +257,8 @@ function startAnimation() {
     intervalStoper[i] = setInterval(function(){exeAnimation(i);}, 1000 / fps);
   }
 
+  console.log("Clean interval...");
+
   setTimeout(cleanInterval, playTime*2);
 }
 
@@ -273,4 +275,5 @@ function cleanInterval() {
   for (var i in intervalStoper) {
     cleanInterval(intervalStoper[i]);
   }
+  console.log("Done... Bye~");
 }
