@@ -137,6 +137,7 @@ function setCurrentLocation(uid, latlng, timestamp) {
   else {
     marker = markersArray[uid];
     len = marker.laPositionArray.length;
+    console.log(uid + " " + len);
     marker.laPositionArray[len] = [];
     marker.laPositionArray[len]['latlng'] = latlng;
     marker.laPositionArray[len]['timestamp'] = timestamp;
@@ -196,7 +197,7 @@ function startAnimation() {
   for (var uid in markersArray) {
     marker = markersArray[uid];
     tick = Math.ceil((marker.laPositionArray[0].timestamp - timeThreshold) / timeBlock);
-    console.log("UID: " + uid + " idles for " + tick + " ticks");
+    // console.log("UID: " + uid + " idles for " + tick + " ticks");
     setTimeout(function(){getNextPoint(uid);}, (tick*1000/fps));
     // for (var j = 0 ; j < playTime*fps ; j++) {
     //   countTime = timeThreshold + timeBlock * j;
