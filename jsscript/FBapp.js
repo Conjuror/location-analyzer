@@ -166,6 +166,7 @@ function getAllFriendsLocation() {
       }
     }
 
+    console.log("2. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
     setTimeout(startAnimation, 15000);
   });
 }
@@ -179,6 +180,7 @@ function startAnimation() {
 
   timeBlock = (now-timeThreshold) / playTime / fps;
   console.log("Start calculation... TimeBlock: " + timeBlock);
+  console.log("3. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
 
   // for (var uid in markersArray) {
   //   console.log("->" + markersArray[uid].laPositionArray.length);
@@ -190,13 +192,14 @@ function startAnimation() {
     markersArray[uid].curPos = 0;
     tick = Math.ceil((markersArray[uid].laPositionArray[0].timestamp - timeThreshold) / timeBlock);
     console.log("UID: " + uid + " idles for " + tick + " ticks");
+    console.log("4. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
     setTimeout(function(){getNextPoint(uid);}, (tick*1000/fps));
   }
   console.log("Start Animation. Interval Time: " + 1000 / fps);
 }
 
 function getNextPoint(uid) {
-  console.log("UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
+  console.log("5. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
   if (markersArray[uid].laPositionArray.length > 1) {
     console.log("hio");
     // moving to next position
