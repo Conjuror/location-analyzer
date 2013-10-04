@@ -18,7 +18,7 @@ window.fbAsyncInit = function() {
       getAllFriendsLocation();
     }
   }, {
-    scope: 'user_friends, user_status, friends_status'
+    scope: 'user_location, user_friends, user_status, friends_status'
   });
 
   // Additional initialization code such as adding Event Listeners goes here
