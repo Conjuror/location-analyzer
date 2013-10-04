@@ -246,9 +246,11 @@ function startAnimation() {
     }
   }
 
+
   time = Math.floor(playTime/fps)
+  console.log("Start Animation. Interval Time: " + time);
   for (var i in markersArray) {
-    intervalStoper[i] = setInterval(exeAnimation(i), time);
+    intervalStoper[i] = setTimeout(exeAnimation(i), time);
   }
 
   setTimeout(cleanInterval, playTime);
