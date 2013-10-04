@@ -16,8 +16,6 @@ window.fbAsyncInit = function() {
     xfbml: true // Look for social plugins on the page
   });
 
-  $(window).triggerHandler('fbAsyncInit');
-
   FB.login(function (response) {
     if (response.authResponse) {
       meUid = response.authResponse.userID;
@@ -61,11 +59,6 @@ window.fbAsyncInit = function() {
   });
 };
 
-$(window).bind('fbAsyncInit', function() {
-  setDefaultLocation(meUid);
-  getAllFriendsLocation();
-});
-
 // Load the SDK asynchronously
 (function(d) {
   var js, id = 'facebook-jssdk',
@@ -88,6 +81,9 @@ function testAPI() {
   FB.api('/me', function (response) {
     console.log('Good to see you, ' + response.name + '.');
   });
+  
+  setDefaultLocation(meUid);
+  getAllFriendsLocation();
 }
 
 function locationGetter() {
