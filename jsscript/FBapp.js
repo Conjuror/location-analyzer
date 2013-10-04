@@ -1,4 +1,9 @@
 // var friendList = [][];
+
+var myPic;
+var current_location.latitude;
+var current_location.longitude;
+
 window.fbAsyncInit = function() {
   // init the FB JS SDK
   FB.init({
@@ -13,6 +18,8 @@ window.fbAsyncInit = function() {
       var uid = response.authResponse.userID;
       var accessToken = response.authResponse.accessToken;
       console.log("accessToken:" + accessToken);
+
+      setCurrentLocation();
 
       // Get Friends
       getAllFriendsLocation();
@@ -98,6 +105,28 @@ function getFriends() {
       friendList[friendList.length][0] = response[i].uid;
     }
     console.log(friendList.length);
+  });
+}
+
+function setCurrentLocation() {
+  FB.api({
+    method: 'fql.query',
+    query: 'SELECT current_location FROM user WHERE uid=me();'
+  }, function(response) {
+    current_location.latitude = response[0].latitude;
+    current_location.longitude = response[0].longitude;
+  });
+  console.log("Current Location: (" + current_location.latitude + ", " + current_location.longitude + ")");
+  FB.api({
+    method: 'fql.query',
+    query: 'SELECT pic_square FROM user WHERE uid=me();'
+  }, function(response) {
+    myPic = response[0].pic_square;
+    var me = new google.map.Marker({
+      position: new google.map.LatLng(current_location.latitude, current_location.longitude),
+      icon: myPic
+    });
+    me.setMap(map);
   });
 }
 
