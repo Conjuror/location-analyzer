@@ -150,12 +150,15 @@ function setCurrentLocation(uid, latlng, timestamp) {
       icon: pic,
       map: map
     });
+    marker.laPositionArray = [];
+    marker.laPositionArray[0] = [];
     marker.laPositionArray[0]['latlng'] = latlng;
     marker.laPositionArray[0]['timestamp'] = timestamp;
   }
   else {
     marker = markersArray[uid];
     len = marker.laPositionArray.length;
+    marker.laPositionArray[len] = [];
     marker.laPositionArray[len]['latlng'] = latlng;
     marker.laPositionArray[len]['timestamp'] = timestamp;
   }
