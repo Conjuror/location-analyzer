@@ -250,7 +250,7 @@ function startAnimation() {
   time = Math.floor(playTime/fps)
   console.log("Start Animation. Interval Time: " + time);
   for (var i in markersArray) {
-    intervalStoper[i] = setInterval(function(){PexeAnimation(i);}, time);
+    intervalStoper[i] = setInterval(function(){exeAnimation(i);}, time);
   }
 
   setTimeout(cleanInterval, playTime*2);
