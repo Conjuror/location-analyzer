@@ -132,7 +132,7 @@ function setCurrentLocation(uid, latlng, timestamp) {
   }
   else {
     markersArray[uid].laPositionArray.push({'latlng': latlng, 'timestamp': timestamp});
-    console.log(ttt+"UID: " + uid + " len:" + markersArray[uid].laPositionArray.length + " " + latlng + " " + timestamp);
+    console.log("UID: " + uid + " len:" + markersArray[uid].laPositionArray.length + " " + latlng + " " + timestamp);
   }
 }
 
