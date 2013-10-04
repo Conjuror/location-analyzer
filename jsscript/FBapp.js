@@ -10,7 +10,7 @@ window.fbAsyncInit = function() {
   // init the FB JS SDK
   FB.init({
     appId: '212467558922080', // App ID from the app dashboard
-    channelUrl: '//rawgithub.com/Conjuror/location-analyzer/api-003/facebook/location-analyzer/channel.html', // Channel file for x-domain comms
+    channelUrl: '//rawgithub.com/Conjuror/location-analyzer/api-004/facebook/location-analyzer/channel.html', // Channel file for x-domain comms
     status: true, // Check Facebook Login status
     xfbml: true // Look for social plugins on the page
   });
@@ -189,7 +189,7 @@ var fps = 20;
 function startAnimation() {
   var now = new Date().getTime();
 
-  timeBlock = (now-timeThreshold) / (playtime*fps);
+  timeBlock = (now-timeThreshold) / (playTime*fps);
   console.log("Start calculation... TimeBlock: " + timeBlock);
 
   // setup time interval
