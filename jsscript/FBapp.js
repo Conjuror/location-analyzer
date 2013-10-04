@@ -175,7 +175,8 @@ function getAllFriendsLocation() {
       setCurrentLocation(uid, latlng, timestamp);
 
       for (var j in response[i]['tagged_uids']) {
-        setCurrentLocation(responpse[i]['tagged_uids'][j], latlng, timestamp);
+        tagged_uid = responpse[i]['tagged_uids'][j];
+        setCurrentLocation(tagged_uid, latlng, timestamp);
       }
     }
 
