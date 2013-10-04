@@ -4,6 +4,8 @@ var myPic;
 var current_location = [];
 var markersArray = [];
 
+var timeThreshold = 1380344400; // Oct 1st
+
 window.fbAsyncInit = function() {
   // init the FB JS SDK
   FB.init({
@@ -19,7 +21,7 @@ window.fbAsyncInit = function() {
       var accessToken = response.authResponse.accessToken;
       console.log("accessToken:" + accessToken);
 
-      setDefaultLocation();
+      setDefaultLocation(meUid);
 
       // Get Friends
       getAllFriendsLocation();
@@ -108,21 +110,35 @@ function getFriends() {
   });
 }
 
-function setDefaultLocation() {
-  getCurrentLocationFromFacebook(function() {
-    FB.api({
-      method: 'fql.query',
-      query: 'SELECT pic_square FROM user WHERE uid=me();'
-    }, function (response) {
-      myPic = response[0].pic_square;
-      console.log("Pic: " + myPic);
-      var me = new google.maps.Marker({
-        position: new google.maps.LatLng(current_location["latitude"], current_location["longitude"]),
-        icon: myPic
-      });
-      me.setMap(map);
-      markersArray[meUid] = me;
-    });
+function setDefaultLocation(meUid) {
+  getCurrentLocationFromFacebook(meUid, setCurrentLocation);
+  // getCurrentLocationFromFacebook(function() {
+  //   FB.api({
+  //     method: 'fql.query',
+  //     query: 'SELECT pic_square FROM user WHERE uid=me();'
+  //   }, function (response) {
+  //     myPic = response[0].pic_square;
+  //     console.log("Pic: " + myPic);
+  //     var me = new google.maps.Marker({
+  //       position: new google.maps.LatLng(current_location["latitude"], current_location["longitude"]),
+  //       icon: myPic
+  //     });
+  //     me.setMap(map);
+  //     markersArray[meUid] = me;
+  //   });
+  // });
+}
+
+function getCurrentLocationFromFacebook(uid, callback) {
+  FB.api({
+    method: 'fql.query',
+    query: 'SELECT current_location FROM user WHERE uid=me();'
+  }, function (response) {
+    current_location["latitude"] = response[0]["current_location"].latitude;
+    current_location["longitude"] = response[0]["current_location"].longitude;
+    console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
+    latlng = new google.maps.LatLng(current_location["latitude"], current_location["longitude"]);
+    callback(uid, latlng, timeThreshold);
   });
 }
 
@@ -154,24 +170,12 @@ function getIconFromFacebook(uid) {
   });
 }
 
-function getCurrentLocationFromFacebook(callback) {
-  FB.api({
-    method: 'fql.query',
-    query: 'SELECT current_location FROM user WHERE uid=me();'
-  }, function (response) {
-    current_location["latitude"] = response[0]["current_location"].latitude;
-    current_location["longitude"] = response[0]["current_location"].longitude;
-    console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
-    callback();
-  });
-}
-
 function getAllFriendsLocation() {
   console.log("Start to query friends' location");
   FB.api({
     method: 'fql.query',
-    query: 'SELECT author_uid, coords, timestamp, tagged_uids FROM checkin WHERE author_uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me()) and timestamp > 1380344400 ORDER BY timestamp;'
+    query: 'SELECT author_uid, coords, timestamp, tagged_uids FROM checkin WHERE author_uid IN (SELECT uid1, uid2 FROM friend WHERE uid2=me() or uid1=me()) and timestamp > ' + timeThreshold+ ' ORDER BY timestamp;'
   }, function (response) {
-    
+
   });
 }
