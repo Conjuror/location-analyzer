@@ -218,9 +218,9 @@ function getNextPoint(uid) {
     lat = (nxtLatLng.lat - curLatLng.lat) / tick;
     if (Math.abs(nxtLatLng.lng - curLatLng.lng) > 180) {
       // pass 180
-      lng = ((nxtLatLng.lng - curLatLng.lng) / Math.abs(nxtLatLng.lng - curLatLng) * (360 - Math.abs(nxtLatLng.lng - curLatLng.lng))) / slot;
+      lng = ((nxtLatLng.lng - curLatLng.lng) / Math.abs(nxtLatLng.lng - curLatLng) * (360 - Math.abs(nxtLatLng.lng - curLatLng.lng))) / tick;
     } else {
-      lng = (nxtLatLng.lng - curLatLng.lng) / slot;
+      lng = (nxtLatLng.lng - curLatLng.lng) / tick;
     }
 
     counter = 0;
