@@ -1,7 +1,7 @@
 // var friendList = [][];
 
 var myPic;
-var current_location;
+var current_location = [];
 
 window.fbAsyncInit = function() {
   // init the FB JS SDK
@@ -112,17 +112,17 @@ function setCurrentLocation() {
     method: 'fql.query',
     query: 'SELECT current_location FROM user WHERE uid=me();'
   }, function(response) {
-    current_location.latitude = response[0].latitude;
-    current_location.longitude = response[0].longitude;
+    current_location["latitude"] = response[0].latitude;
+    current_location["longitude"] = response[0].longitude;
   });
-  console.log("Current Location: (" + current_location.latitude + ", " + current_location.longitude + ")");
+  console.log("Current Location: (" + current_location["latitude"] + ", " + current_location["longitude"] + ")");
   FB.api({
     method: 'fql.query',
     query: 'SELECT pic_square FROM user WHERE uid=me();'
   }, function(response) {
     myPic = response[0].pic_square;
     var me = new google.map.Marker({
-      position: new google.map.LatLng(current_location.latitude, current_location.longitude),
+      position: new google.map.LatLng(current_location["latitude"], current_location["longitude"]),
       icon: myPic
     });
     me.setMap(map);
