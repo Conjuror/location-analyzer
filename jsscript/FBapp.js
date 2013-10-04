@@ -143,7 +143,7 @@ function getCurrentLocationFromFacebook(uid, callback) {
 }
 
 function setCurrentLocation(uid, latlng, timestamp) {
-  if (!(uid in markersArray[uid])) {
+  if (!(uid in markersArray)) {
     pic = getIconFromFacebook(uid);
     marker = new google.maps.Marker({
       position: latlng,
