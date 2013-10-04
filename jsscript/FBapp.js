@@ -192,9 +192,14 @@ function startAnimation() {
     tick = Math.ceil((markersArray[uid].laPositionArray[0].timestamp - timeThreshold) / timeBlock);
     console.log("UID: " + uid + " idles for " + tick + " ticks");
     console.log("4. UID: " + uid + " Len: " + markersArray[uid].laPositionArray.length);
-    setTimeout(function(){getNextPoint(uid);}, (tick*1000/fps));
+    // setTimeout(function(){getNextPoint(uid);}, (tick*1000/fps));
+    doSetTimeout(uid, tick*100/fps);
   }
   console.log("Start Animation. Interval Time: " + 1000 / fps);
+}
+
+function doSetTimeout(uid, time) {
+  setTimeout(function(){getNextPoint(uid);}, time)
 }
 
 function getNextPoint(uid) {
